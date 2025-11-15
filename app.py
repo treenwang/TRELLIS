@@ -398,6 +398,11 @@ with gr.Blocks(delete_cache=(600, 600)) as demo:
 
 # Launch the Gradio app
 if __name__ == "__main__":
-    pipeline = TrellisImageTo3DPipeline.from_pretrained("microsoft/TRELLIS-image-large")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # pipeline = TrellisImageTo3DPipeline.from_pretrained("microsoft/TRELLIS-image-large")
+    # load the model from local cache directory
+    local_model_path = os.path.join(script_dir, "models/TRELLIS-image-large")
+    print(local_model_path)
+    pipeline = TrellisImageTo3DPipeline.from_pretrained(local_model_path)
     pipeline.cuda()
-    demo.launch()
+    demo.launch(share=True, server_name="0.0.0.0", server_port=7860)
